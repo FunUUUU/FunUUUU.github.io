@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-DATE=`date +%Y%m%d_%H%M%S`
+DATE=`date +%Y%m%d%H%M%S`
 echo "Pushing source to GitHub..."
 git add .
 git commit -m \'$DATE\'
