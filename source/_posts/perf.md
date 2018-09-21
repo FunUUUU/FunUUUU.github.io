@@ -2,6 +2,7 @@
 title: MD 解析器性能测试 + 查锅
 date: 2018-09-21 22:25:06
 tags:
+mathjax: true
 ---
 **后缀自动机**是一个能解决许多字符串相关问题的有力的数据结构。
 
@@ -42,27 +43,27 @@ tags:
 
 对于字符串 $s=``"$：
 
-![](./images/SAM/SA.pdf.svg)
+![](./SA.pdf.svg)
 
 对于字符串 $s=``a\!"$：
 
-![](./images/SAM/SAa.pdf.svg)
+![](./SAa.pdf.svg)
 
 对于字符串 $s=``aa\!"$：
 
-![](./images/SAM/SAaa.pdf.svg)
+![](./SAaa.pdf.svg)
 
 对于字符串 $s=``ab\!"$：
 
-![](./images/SAM/SAab.pdf.svg)
+![](./SAab.pdf.svg)
 
 对于字符串 $s=``abb\!"$：
 
-![](./images/SAM/SAabb.pdf.svg)
+![](./SAabb.pdf.svg)
 
 对于字符串 $s=``abbb\!"$：
 
-![](./images/SAM/SAabbb.pdf.svg)
+![](./SAabbb.pdf.svg)
 
 ## 在线性时间内构造后缀自动机
 
@@ -131,7 +132,7 @@ $$
 
 以下是对于字符串 $``abcbc\!"$ 构造后缀自动机时产生的后缀链接树的一个**例子**，节点被标记为对应等价类中最长的子串。
 
-![](./images/SAM/SA_suffix_links.pdf.svg)
+![](./SA_suffix_links.pdf.svg)
 
 ### 小结
 
