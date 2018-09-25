@@ -303,6 +303,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://funuuuu.github.io/2018/09/25/「NOIp-2011」D2-T3观光公交/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LizeWang">
+      <meta itemprop="description" content="QAQ">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QAQ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/25/「NOIp-2011」D2-T3观光公交/" itemprop="url">
+                  「NOIp-2011」D2-T3 观光公交
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-25 19:57:31 / 修改时间：20:18:12" itemprop="dateCreated datePublished" datetime="2018-09-25T19:57:31+08:00">2018-09-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          解题思路
+
+
+
+一开始自己想了一个贪心，虽然贪心的主要思路是对的，但并不会统计游客用的旅行时间。所以就去题解里面看看，第一篇是最小费用最大流，会比较麻烦，所以就去看了看底下的贪心，第一篇贪心被卡掉了，看第二篇，嗯，好像还行。再看看第三篇，写的好简略。不过看懂了。
+
+贪心的主要思路就是在经过游客最多的路上使用加速器，但是还要注意，如果在一条路径的终点，有的游客到达的时间比现在公交车到达的时间还要晚的话就没必要用加速器了，因为再早到达你也必须等着游客上车吧。
+
+考虑用优先队列保证得到最大的价值（经过的游客的数量），如果有一个点满足下面的条件：
+
+最晚到达的乘客的到达时间比公交车的到达时间还要晚。
+
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/25/「NOIp-2011」D2-T3观光公交/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://funuuuu.github.io/2018/09/21/2018-9-21校内测试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -655,7 +810,7 @@ $ hexo s
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -672,7 +827,11 @@ $ hexo s
                     
                       
                     
-                    <span class="site-state-item-count">1</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -899,6 +1058,8 @@ $ hexo s
     
       
         
+      
+    
       
     
       
