@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<style>
+#Canvas{
+    position:fixed;
+    top:0px;
+    left:0px;
+}
+</style>
+
+<canvas id="Canvas"></canvas>
+
+<script>
+    window.requestAnimFrame=
+        window.requestAnimationFrame||
+        window.webkitRequestAnimationFrame||
+        window.mozRequestAnimationFrame||
+        window.oRequestAnimationFrame||
+        window.msRequestAnimationFrame||
+        function(callback){window.setTimeout(callback, 1000/10);};
+    var W=document.body.scrollWidth,H=document.body.scrollHeight;
+    var ca=document.getElementById("Canvas"),el=ca.getContext("2d");
+    var num=0,SpeedBasic=3,SpeedRand=0.8,angleBasic=0.5,timer,lline=20;
+    var x=new Array(),y=new Array(),speed=new Array(),angle=new Array(),t=new Array(),TT=new Array();
+    var img1=new Image(),img2=new Image(),img3=new Image(),img4=new Image();
+    ca.width=W;ca.height=H;
+    
+    function RandomNum(Min,Max){
+        var Range=Max-Min;
+        var Rand=Math.random();
+        return(Min+Math.round(Rand * Range));
+    }
+    function RandomReal(Min,Max){
+        return Min+(Max-Min)*Math.random();
+    }
+    function abs(W){return W<=0?-W:W;}
+    function drawtail(px,py,an){
+        an=Math.atan(an);
+        for (var i=0;i<10;i++){
+            var X,Y;
+            Y=Math.sqrt(RandomReal(0,lline*lline));
+            X=RandomReal(-Y*5/lline,Y*5/lline)+RandomReal(-Y*5/lline,Y*5/lline);
+            Y=lline-Y;
+            X+=10;
+            el.fillRect(px+(X*Math.cos(an)-Y*Math.sin(an)),py-(X*Math.sin(an)+Y*Math.cos(an)),2,2);
+        }
+    }
+    function drawline(sx,sy,px,py){
+        el.beginPath();
+        el.moveTo(sx,sy);
+        el.lineTo(px,py);
+        el.stroke();
+        el.closePath();
+    }
+    function dis(sx,sy,px,py){
+        return Math.sqrt((px-sx)*(px-sx)+(py-sy)*(py-sy));
+    }
+    function work(timestamp){
+        if (RandomNum(0,5)==0){
+            x.push(RandomNum(0,W));
+            y.push(RandomNum(0,H));
+            t.push(0);
+            TT.push(RandomNum(3,10));
+            speed.push(SpeedBasic+RandomReal(-SpeedRand,SpeedRand)+RandomReal(-SpeedRand,SpeedRand)+RandomReal(-SpeedRand,SpeedRand));
+            angle.push(RandomReal(-angleBasic,angleBasic)+RandomReal(-angleBasic,angleBasic)+RandomReal(-angleBasic,angleBasic));
+            for (;;){
+                if (Math.random()<=0.7) y[num]=0;else{
+                    y[num]%=200;
+                    if (Math.random()<=0.5) x[num]=0,angle[num]=abs(angle[num]);else x[num]=W-1,angle[num]=-abs(angle[num]);
+                }
+                var i;
+                for (i=0;i<num;i++) if (dis(x[i],y[i],x[num],y[num])<20) break;
+                if (i==num) break;
+                x[num]=RandomNum(0,W);y[num]=RandomNum(0,H);
+            }
+            num++;
+        }
+        el.clearRect(0,0,W,H);
+        el.fillStyle="#7B68EE";
+        var tmp;
+        for (var i=0;i<num;i++)
+        for (var j=i+1;j<num;j++)
+        if (dis(x[i],y[i],x[j],y[j])<20){
+            tmp=speed[i];
+            speed[i]=speed[j];
+            speed[j]=tmp;
+            
+            tmp=angle[i];
+            angle[i]=angle[j];
+            angle[j]=tmp;
+        }
+        for (var i=0;i<num;i++){
+            //el.fillRect(x[i],y[i],10,10);
+            drawtail(x[i],y[i],angle[i]);
+            drawstar(x[i],y[i],(parseInt(t[i]/TT[i])%4)+1);
+            y[i]+=speed[i];x[i]+=(speed[i]*angle[i]);
+            t[i]++;
+            if (y[i]>=H||x[i]<0||x[i]>=W){
+                num--;
+                x[i]=x[num];y[i]=y[num];speed[i]=speed[num];angle[i]=angle[num];t[i]=t[num];TT[i]=TT[num];
+                x.pop();y.pop();speed.pop();angle.pop();t.pop();TT.pop();
+                i--;
+            }
+        }
+        timer=requestAnimationFrame(work);
+    }
+    timer=requestAnimationFrame(work);
+    var sta=1;
+    function control(){
+        if (sta==1){
+            cancelAnimationFrame(timer);
+            ca.style.opacity="0";
+            sta=0;
+        }else{
+            timer=requestAnimationFrame(work);
+            ca.style.opacity="1";
+            sta=1;
+        }
+    }
+    
+    
+    function ShowTab(){
+        dx=document.getElementById("MagicArray");
+        if (dx.style.width=="200px"){
+            dx.style.width="0px";
+            dx.style.height="0px";
+            dx.style.bottom="100px";
+            dx.style.right="100px";
+            dx.style.transform="rotate(0deg)";
+        }else{
+            dx.style.width="200px";
+            dx.style.height="200px";
+            dx.style.bottom="0px";
+            dx.style.right="0px";
+            dx.style.transform="rotate(180deg)";
+        }
+    
+        dy=document.getElementsByName("Tab");
+        for (var i=0;i<y.length;i++){
+            dx=dy[i];
+            if (dx.style.fontSize=="15px"){
+                dx.style.fontSize="0px";
+                dx.style.transitionDelay="0s";
+            }else{
+                dx.style.fontSize="15px";
+                dx.style.transitionDelay="0.8s";
+            }
+        }
+    }
+    function ShowPicture(){
+        dx=document.getElementById("main");
+        if (dx.style.opacity=="0") dx.style.opacity="0.9";else dx.style.opacity="0";
+    }
+    function ChangePicture(){
+        dx=document.body;
+        dy=RandomNum(0,37);
+        if (dy==0){
+            dx.style.background="url(http://images.cnblogs.com/cnblogs_com/bljfy/1247952/o_5s_by_wlop-dcgl99w.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==1){
+            dx.style.background="url(https://www.cnblogs.com/images/cnblogs_com/bljfy/1247952/o_9s_by_wlop-d8pa466.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==2){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cda088fe1.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==3){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cda08bd98.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==4){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cda08d8ad.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==5){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cda09ef70.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==6){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cda09ef70.jpg) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==7){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cda08ec15.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==8){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd3ba0783.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==9){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd3b30332.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==10){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd3906f61.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==11){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd38e3b69.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==12){
+            dx.style.background="url(https://www.cnblogs.com/images/cnblogs_com/bljfy/1247952/o_9s_by_wlop-d8pa466.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==13){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd36bb35e.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==14){
+            dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd3656a83.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+        }else if (dy==15){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd3626b5e.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}else if (dy==16){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd18495f1.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}else if (dy==17){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd1847270.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}else if (dy==18){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cd184511e.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}else if (dy==19){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95ccff30290.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==20){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95ccff2d349.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==21){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95ccff2b1d9.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==22){
+			dx.style.background="url(https://www.cnblogs.com/images/cnblogs_com/bljfy/1247952/o_lion_by_wlop-dcbk7fi.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==23){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cc2e27f44.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==24){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cc2e1e7a7.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==25){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cc14900b1.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==26){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cc148dc0c.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==27){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cc1481090.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==28){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cbfc6f11a.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==29){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cbfc6da44.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==30){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cbfc56c05.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==31){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cbe0c587c.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==32){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cbe0c2197.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==33){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cbe09837e.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==34){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cab817911.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==35){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95cab6e9b2b.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==36){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95ca9f6342d.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+		else if (dy==37){
+			dx.style.background="url(https://i.loli.net/2018/09/10/5b95ca934e4c5.jpg ) no-repeat fixed";
+            dx.style.backgroundSize="cover";
+		}
+    }
+    ChangePicture();
+</script>
+
+
+</body>
+</html>
