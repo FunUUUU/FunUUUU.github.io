@@ -459,6 +459,9 @@ body {
 }
 .main {
   padding-bottom: 150px;
+  background: url('https://i.loli.net/2018/09/02/5b8b3938b2299.jpg') no-repeat top center fixed;
+  background-size: cover;
+  padding-bottom: 150px;
 }
 .main-inner {
   margin: 0 auto;
@@ -2576,6 +2579,7 @@ ul.breadcrumb li+li:last-child {
   }
 }
 .content-wrap {
+  background-color : rgba(255, 255, 255, 0.73) !important;
   float: right;
   box-sizing: border-box;
   padding: 40px;
